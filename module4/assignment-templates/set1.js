@@ -30,10 +30,10 @@ function savings(grossPay, taxRate, expenses) {
  *
  * Format the output as a string, annotated with the units in which the material is expressed. Do not add a space between the number and the unit.
  *
- * @param {Number} totalMaterial
- * @param {string} materialUnits
- * @param {Number} numJobs
- * @param {Number} jobConsumption
+ * @param {Number} totalMaterial How much material you have at the start
+ * @param {string} materialUnits The unit used to express an amount of material, e.g., "kg"
+ * @param {Number} numJobs How many jobs to run
+ * @param {Number} jobConsumption How much material each job consumes
  * @returns {string} The amount of remaining material expressed with its unit (e.g., "10kg")
  */
 function materialWaste(totalMaterial, materialUnits, numJobs, jobConsumption) {

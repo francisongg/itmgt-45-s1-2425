@@ -49,7 +49,7 @@ function relationshipStatus(fromMember, toMember, socialGraph) {
  *
  * @param {Array} board The representation of the Tic Tac Toe board as a square array of arrays. The size of the array will range between 3x3 to 6x6.
  * The board will never have more than 1 winner.
- * There will only ever have 2 unique symbols at the same time.
+ * There will only ever be 2 unique symbols at the same time.
  * @returns {string} the symbol of the winner, or "NO WINNER" if there is no winner.
  */
 function ticTacToe(board) {
