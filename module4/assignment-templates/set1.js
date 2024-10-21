@@ -17,8 +17,16 @@
  * @returns {Number} The number of centavos remaining from an employee's pay after taxes and expenses
  */
 function savings(grossPay, taxRate, expenses) {
-    // Write your code here
+      
+    const afterTaxPay = Math.floor(grossPay * (1 - taxRate));
+    
+
+    const remaining = afterTaxPay - expenses;
+    
+  
+    return remaining;
 }
+
 
 /**
  * Material waste
@@ -37,8 +45,16 @@ function savings(grossPay, taxRate, expenses) {
  * @returns {string} The amount of remaining material expressed with its unit (e.g., "10kg")
  */
 function materialWaste(totalMaterial, materialUnits, numJobs, jobConsumption) {
-    // Write your code here
+   
+    const totalConsumed = numJobs * jobConsumption;
+    
+   
+    const remainingMaterial = totalMaterial - totalConsumed;
+    
+   
+    return `${remainingMaterial}${materialUnits}`;
 }
+
 
 /**
  * Interest
@@ -54,5 +70,14 @@ function materialWaste(totalMaterial, materialUnits, numJobs, jobConsumption) {
  * @returns {Number} The final value of the investment
  */
 function interest(principal, rate, periods) {
-    // Write your code here
+   
+    const interestGained = principal * rate * periods;
+    
+
+    const finalValue = Math.floor(principal + interestGained);
+    
+ 
+    return finalValue;
+}
+
 }
