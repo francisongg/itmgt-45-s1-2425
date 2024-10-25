@@ -80,4 +80,3 @@ function interest(principal, rate, periods) {
     return finalValue;
 }
 
-}
