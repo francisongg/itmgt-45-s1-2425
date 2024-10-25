@@ -24,9 +24,11 @@
  * @returns {string} The letter, shifted appropriately, if a letter, otherwise a space.
  */
 function shiftLetter(letter, shift) {
-    // Write your code here
+      if (letter === ' ') return ' ';
+    const charCode = letter.charCodeAt(0);
+    const newCharCode = ((charCode - 65 + (shift % 26) + 26) % 26) + 65;
+    return String.fromCharCode(newCharCode);
 }
-
 /**
  * Caesar cipher
  *
@@ -37,7 +39,20 @@ function shiftLetter(letter, shift) {
  * @returns {string} The message, shifted appropriately.
  */
 function caesarCipher(message, shift) {
-    // Write your code here
+   const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    let final = '';
+
+    for (let i = 0; i < message.length; i++) {
+        const char = message[i];
+
+        if (alphabet.includes(char)) {
+            const index = (alphabet.indexOf(char) + shift) % 26;
+            final += alphabet[index];
+        }
+        else { final += char; }
+    }
+
+    return final;
 }
 
 /**
@@ -57,8 +72,30 @@ function caesarCipher(message, shift) {
  * @returns {string} The letter, shifted appropriately
  */
 function shiftByLetter(letter, letterShift) {
-    // Write your code here
+    if (letter === ' ') {
+        return ' ';
+    }
+
+    const alphabet = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M',
+                      'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
+
+    let letterIndex = 0;
+    let shiftIndex = 0;
+
+    for (let i = 0; i < alphabet.length; i++) {
+        if (alphabet[i] === letter) {
+            letterIndex = i;
+        }
+        if (alphabet[i] === letterShift) {
+            shiftIndex = i;
+        }
+    }
+
+    const newIndex = (letterIndex + shiftIndex) % 26;
+
+    return alphabet[newIndex];
 }
+
 
 /**
  * Vigenere cipher
@@ -78,8 +115,41 @@ function shiftByLetter(letter, letterShift) {
  * @returns {string} The message, shifted appropriately
  */
 function vigenereCipher(message, key) {
-    // Write your code here
+
+    let encryptedText = '';
+    let asciiOffset = 'a'.charCodeAt(0); 
+    let keyIndex = 0;
+
+
+    
+    for (let i = 0; i < message.length; i++) {
+        let letter = message[i];
+
+       
+        if (letter >= 'a' && letter <= 'z') {
+            
+            let keyChar = key[keyIndex % key.length];
+            let shift = keyChar.charCodeAt(0) - asciiOffset;
+
+           
+            let letterValue = letter.charCodeAt(0) - asciiOffset;
+            let shiftedValue = (letterValue + shift) % 26;
+            let encryptedLetter = String.fromCharCode(shiftedValue + asciiOffset);
+
+            encryptedText += encryptedLetter;
+
+           
+            keyIndex++;
+        } else {
+          
+            encryptedText += letter;
+        }
+    }
+
+    return encryptedText;
 }
+
+
 
 /**
  * Scytale cipher
@@ -122,7 +192,17 @@ function vigenereCipher(message, key) {
  * @param {number} shift A positive integer that does not exceed the length of the message
  */
 function scytaleCipher(message, shift) {
-    // Write your code here
+   while (message.length % shift !== 0) {
+        message += '_';
+    }
+    const numRows = message.length / shift;
+    let encodedMessage = '';
+    for (let i = 0; i < message.length; i++) {
+        const row = Math.floor(i / shift);
+        const col = i % shift;
+        encodedMessage += message[row + col * numRows];
+    }
+    return encodedMessage;
 }
 
 /**
@@ -139,5 +219,17 @@ function scytaleCipher(message, shift) {
  * @param {Number} shift A positive integer that does not exceed the length of the message
  */
 function scytaleDecipher(message, shift) {
-    // Write your code here
+   const numRows = Math.ceil(message.length / shift);
+    let decodedMessage = '';
+    for (let i = 0; i < message.length; i++) {
+        const row = i % numRows;
+        const col = Math.floor(i / numRows);
+        decodedMessage += message[row * shift + col];
+    }
+    return decodedMessage;
 }
+
+
+
+
+
