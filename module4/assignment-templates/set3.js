@@ -33,7 +33,22 @@
  * "no relationship" otherwise.
  */
 function relationshipStatus(fromMember, toMember, socialGraph) {
-    // Write your code here
+    if (!socialGraph[fromMember]) {
+        return "no relationship";
+    }
+    
+    const fromFollows = socialGraph[fromMember].following.includes(toMember);
+    const toFollows = socialGraph[toMember]?.following.includes(fromMember);
+
+    if (fromFollows && toFollows) {
+        return "friends";
+    } else if (fromFollows) {
+        return "follower";
+    } else if (toFollows) {
+        return "followed by";
+    } else {
+        return "no relationship";
+    }
 }
 
 /**
@@ -53,8 +68,30 @@ function relationshipStatus(fromMember, toMember, socialGraph) {
  * @returns {string} the symbol of the winner, or "NO WINNER" if there is no winner.
  */
 function ticTacToe(board) {
-    // Write your code here
+    const size = board.length;
+    const checkLine = (line) => line.every(cell => cell === line[0] && cell !== null) ? line[0] : null;
+
+
+    for (let i = 0; i < size; i++) {
+        const rowWinner = checkLine(board[i]);
+        if (rowWinner) return rowWinner;
+
+        const colWinner = checkLine(board.map(row => row[i]));
+        if (colWinner) return colWinner;
+    }
+
+    const mainDiagonal = board.map((row, i) => row[i]);
+    const antiDiagonal = board.map((row, i) => row[size - 1 - i]);
+
+    const mainDiagWinner = checkLine(mainDiagonal);
+    if (mainDiagWinner) return mainDiagWinner;
+
+    const antiDiagWinner = checkLine(antiDiagonal);
+    if (antiDiagWinner) return antiDiagWinner;
+
+    return "NO WINNER";
 }
+
 
 /**
  * ETA
@@ -73,5 +110,38 @@ function ticTacToe(board) {
  * @returns {Number} the time that it will take the shuttle to travel from firstStop to secondStop
  */
 function eta(firstStop, secondStop, routeMap) {
-    // Write your code here
+    let totalTravelTime = 0;
+
+    
+    const stops = Object.keys(routeMap).map(key => key.split(',')[0]);
+
+    let startIndex = stops.indexOf(firstStop);
+    let endIndex = stops.indexOf(secondStop);
+
+    
+    if (startIndex === -1 || endIndex === -1) {
+        return "NO ROUTE";
+    }
+
+   
+    while (startIndex !== endIndex) {
+        const nextIndex = (startIndex + 1) % stops.length;
+        const routeKey = `${stops[startIndex]},${stops[nextIndex]}`;
+
+        if (routeMap[routeKey]) {
+            totalTravelTime += routeMap[routeKey].travel_time_mins;
+        } else {
+           
+            return "NO ROUTE";
+        }
+
+        startIndex = nextIndex;
+        
+       
+        if (startIndex === stops.indexOf(firstStop)) {
+            break;
+        }
+    }
+
+    return totalTravelTime;
 }
